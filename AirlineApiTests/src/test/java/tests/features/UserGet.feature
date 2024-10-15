@@ -27,12 +27,12 @@ Feature: Test user GET method endpoints
         * def validTest = call read('UserGet.feature@GetUserById') {id: '#(validId)'}
 
     @InvalidUserIdCalls
-    Scenario: Call '@TestInvalidId' with different invalid ID types
+    Scenario: Call '@GetByInvalidIdTest' with different invalid ID types
         * def nullVar = null
-        * def nullTest = call read('UserGet.feature@TestInvalidId') {id: '#(nullVar)'}
-        * def textTest = call read('UserGet.feature@TestInvalidId') {id: "text"}
-        * def spaceTest = call read('UserGet.feature@TestInvalidId') {id: ' '}
-        * def zeroTest = call read('UserGet.feature@TestInvalidId') {id: 0}
+        * def nullTest = call read('UserGet.feature@GetUserByInvalidId') {id: '#(nullVar)'}
+        * def textTest = call read('UserGet.feature@GetUserByInvalidId') {id: "text"}
+        * def spaceTest = call read('UserGet.feature@GetUserByInvalidId') {id: ' '}
+        * def zeroTest = call read('UserGet.feature@GetUserByInvalidId') {id: 0}
 
     @GetUserById @ignore
     Scenario: GET user by ID and validate response properties and ID match
@@ -43,7 +43,7 @@ Feature: Test user GET method endpoints
         Then match response == {id: "#number", email: "#string", name: "#string", surname: "#string"}
         Then match response.id == id
 
-    @TestInvalidId @ignore
+    @GetUserByInvalidId @ignore
     Scenario: GET user by invalid ID and test error handling
         Given path "user/" + id
         And method GET
