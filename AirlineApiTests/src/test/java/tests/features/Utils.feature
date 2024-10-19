@@ -6,7 +6,7 @@ Feature: Utility
 
     @GetUserId
     Scenario: Get existing valid user ID
-        Given path "/user"
+        Given path "user"
         When method GET
         Then status 200
         Then match response == "#array"
@@ -33,12 +33,36 @@ Feature: Utility
 
     @GetUserEmail
     Scenario: Get existing user email
-        Given path "/user"
+        Given path "user"
         When method GET
         Then status 200
         Then match response == "#array"
         Then match each response == {id: "#number", email: "#string", name: "#string", surname: "#string"}
         * def userEmail = response[0].email
+
+    @RemoveEmptyParams
+    Scenario: Remove empty params
+        * def removeEmptyParams = 
+        """
+            function(x) {
+                for(var key in x) {
+                    if(x[key] == '') {
+                        delete x[key];
+                    }
+                }
+                return x;
+            }
+        """
+
+    @GetBookingDateAndUserId
+    Scenario:
+    Given path "booking"
+    And method GET
+    Then status 200
+    Then match each response == {date: '#string', destination: '#string', id: '#number', origin: '#string', userId: '#number'}
+    * def validDate = response[0].date
+    * def validUser = response[0].id
+        
         
 
         

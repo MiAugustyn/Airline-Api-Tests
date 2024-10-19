@@ -3,10 +3,10 @@ Feature: Test user GET method endpoints
 
     Background:
         Given url baseUrl
+        And path "user"
 
     @GetAllUsers
     Scenario: GET all users and validate response properties and uniqueness of IDs and emails
-        Given path "/user"
         When method GET
         Then status 200
         Then match response == "#array"
@@ -27,7 +27,7 @@ Feature: Test user GET method endpoints
         * def validTest = call read('UserGet.feature@GetUserById') {id: '#(validId)'}
 
     @InvalidUserIdCalls
-    Scenario: Call '@GetByInvalidIdTest' with different invalid ID types
+    Scenario: Call '@GetUserByInvalidId' with different invalid ID types
         * def nullVar = null
         * def nullTest = call read('UserGet.feature@GetUserByInvalidId') {id: '#(nullVar)'}
         * def textTest = call read('UserGet.feature@GetUserByInvalidId') {id: "text"}
@@ -36,7 +36,7 @@ Feature: Test user GET method endpoints
 
     @GetUserById @ignore
     Scenario: GET user by ID and validate response properties and ID match
-        Given path "user/" + id
+        Given path "/" + id
         And method GET
         Then status 200
         Then match response == "#object"
@@ -45,7 +45,7 @@ Feature: Test user GET method endpoints
 
     @GetUserByInvalidId @ignore
     Scenario: GET user by invalid ID and test error handling
-        Given path "user/" + id
+        Given path "/" + id
         And method GET
         Then status 400
         Then match response contains {message: "Validation errors"}

@@ -2,6 +2,7 @@ Feature: Test user POST method endpoints
 
     Background:
         Given url baseUrl
+        And path "user"
         # I'm adding highest user ID to created emails to ensure they will be unique each time
         * def getHighestId = call read('Utils.feature@GetHighestUserId')
         * def highestId = getHighestId.highestId 
@@ -11,7 +12,6 @@ Feature: Test user POST method endpoints
         * def uniqueEmail = 'test' + highestId + '@email.com'
         * def requestBody = {email: '#(uniqueEmail)', name: 'Test', surname: 'User'}
         
-        Given path "/user"
         And request requestBody
         When method POST
         Then status 201
@@ -21,9 +21,8 @@ Feature: Test user POST method endpoints
     
     @CreateInvalidUserCalls
     Scenario: Call '@CreateInvalidUser' with invalid email types
-        * def getUserEmail = call read('Utils.feature@GetUserEmail')
-        * def userEmail = getUserEmail.userEmail
-        * print userEmail
+        * def getUserEmailUtil = call read('Utils.feature@GetUserEmail')
+        * def userEmail = getUserEmailUtil.userEmail
         * def emailExistTest = call read('UserPost.feature@CreateInvalidUser') {email: '#(userEmail)'}
         * def emptyEmailTest = call read('UserPost.feature@CreateInvalidUser') {email: ""}
 
@@ -38,7 +37,6 @@ Feature: Test user POST method endpoints
     @CreateInvalidUser @ignore
     Scenario: Create new user and expect conflict status
         * def requestBody = {email: '#(email)', name: 'Test', surname: 'User'}
-        Given path "/user"
         And request requestBody
         When method POST
         Then status 409
