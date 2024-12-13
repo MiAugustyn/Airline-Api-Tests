@@ -54,7 +54,7 @@ Feature: Utility
             }
         """
 
-    @GetBookingDateAndUserId
+    @GetValidBookingParams
     Scenario:
     Given path "booking"
     And method GET
@@ -62,6 +62,8 @@ Feature: Utility
     Then match each response == {date: '#string', destination: '#string', id: '#number', origin: '#string', userId: '#number'}
     * def validDate = response[0].date
     * def validUser = response[0].id
+    * def validDestination = response[0].destination
+    * def validOrigin = response[0].origin
         
         
 

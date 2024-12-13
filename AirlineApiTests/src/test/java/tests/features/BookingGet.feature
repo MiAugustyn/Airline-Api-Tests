@@ -4,7 +4,7 @@ Feature: Test booking GET method endpoints
     Background:
         Given url baseUrl
         And path "booking"
-        * def validParamsUtil = call read('Utils.feature@GetBookingDateAndUserId')
+        * def validParamsUtil = call read('Utils.feature@GetValidBookingParams')
         * def validDate = validParamsUtil.validDate
         * def validUser = validParamsUtil.validUser
         * def nullVar = null
@@ -19,7 +19,7 @@ Feature: Test booking GET method endpoints
 
     @HandleNullRequests
     Scenario:  Call '@GetAllBookings' with null params (non-null params are valid). API should exclude null params from request.
-        * def bothParamsEmptyNull = call read('BookingGet.feature@GetAllBookings') {userId: '#(nullVar)', bookingDate: '#(nullVar)'}
+        * def bothParamsNullTest = call read('BookingGet.feature@GetAllBookings') {userId: '#(nullVar)', bookingDate: '#(nullVar)'}
         * def nullUserTest = call read('BookingGet.feature@GetAllBookings') {userId: '#(nullVar)', bookingDate: '#(validDate)'}
         * def nullDateTest = call read('BookingGet.feature@GetAllBookings') {userId: '#(validUser)', bookingDate: '#(nullVar)'}
         
